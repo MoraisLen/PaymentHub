@@ -1,0 +1,102 @@
+@PaymentHub.API_HostAddress = http://localhost:5080/api
+
+/// Retorna os métodos de pagamento aceitados.
+GET {{PaymentHub.API_HostAddress}}/Util/GetPaymentMethodsAsync
+Accept: Application/json
+###
+
+/// Criação de preferencia para pagamento via plataforma do Mercado Pago.
+POST {{PaymentHub.API_HostAddress}}/Preference/CreateAsync
+Content-Type: application/json
+Accept: application/json
+
+{
+  "Observacao": "",
+  "dataExpiracaoDe": "2024-05-19",
+  "dataExpiracaoAte": "2024-05-22",
+  "expira": true,
+  "itens": [
+    {
+      "id": "",
+      "titulo": "TECLADO MULTIMÍDIA TE126",
+      "descricao": "Teclado KNUP ABNT2",
+      "urlImagem": "",
+      "quantidade": 1,
+      "Moeda": "BRL",
+      "precoUnitario": 150
+    }
+  ],
+  "pagador": {
+    "nome": "John",
+    "sobrenome": "Doe",
+    "email": "john@doe.com",
+    "CPF": "19119119100",
+    "dataCriacao": "2024-05-20"
+  },
+  "metodoPagamento": {
+    "metodosPagamentoExcluidos": [
+      {
+        "id": "master"
+      }
+    ],
+    "tiposPagamentoExcluidos": [
+      {
+        "id": "credit_card"
+      }
+    ],
+    "metodoPagamentoPadrao": "pix"
+  }
+}
+
+###
+
+/// Listar preferencias criadas
+GET {{PaymentHub.API_HostAddress}}/Preference/GetAsync
+Accept: application/json
+###
+
+/// Obter detalhe de preferência por ID
+GET {{PaymentHub.API_HostAddress}}/Preference/GetAsync/240694611-3d4a6cd5-e3ae-4d4b-bfff-92f3a4d28766
+Accept: application/json
+###
+
+/// Criação de Pagamento via Pix
+POST {{PaymentHub.API_HostAddress}}/Pix/CreateAsync
+Content-Type: application/json
+Accept: application/json
+
+{
+  "valorTotal": 150,
+  "descricao": "Compra de eletronicos",
+  "referenciaExterna": "",
+  "pagador": {
+    "nome": "João",
+    "sobrenome": "Santos",
+    "email": "joaosantos@email.com"
+  },
+  "produtos": [
+    {
+      "nome": "TECLADO MULTIMÍDIA TE126",
+      "descricao": "Teclado KNUP ABNT2",
+      "valorUnitario": 75,
+      "quantidade": 2
+    }
+  ]
+}
+
+###
+
+/// Listar todos os pagamentos via Pix
+GET {{PaymentHub.API_HostAddress}}/Pix/GetAsync
+Accept: application/json
+###
+
+/// Obter pagamento Pix por Id
+GET {{PaymentHub.API_HostAddress}}/Pix/GetAsync/78922775795
+Accept: application/json
+###
+
+/// Cancelamento de pagamento via Pix
+PUT {{PaymentHub.API_HostAddress}}/Pix/CancellAsync/78922775795
+Accept: application/json
+###
